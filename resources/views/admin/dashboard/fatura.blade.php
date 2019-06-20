@@ -23,29 +23,8 @@
                 <div class="row">
                 <div class="col-md-6">
                     <address>
-                    <strong>Faturado Para:</strong><br>
-                        Rua das Salmoras<br>
-                        1234, IPSEP<br>
-                        Apt. 4B<br>
-                        Serra Talhada, Pernambuco, BR
-                    </address>
-                </div>
-                <div class="col-md-6 text-md-right">
-                    <address>
-                    <strong>Frete Para:</strong><br>
-                    Rua das Lambretas<br>
-                    1234, Caetano 2<br>
-                    Casa. 214<br>
-                    Floresta, Pernambuco, BR
-                    </address>
-                </div>
-                </div>
-                <div class="row">
-                <div class="col-md-6">
-                    <address>
                     <strong>Forma de Pagamento:</strong><br>
-                    Visa final **** 4242<br>
-                    master@gmail.com
+                    PagSeguro<br>
                     </address>
                 </div>
                 <div class="col-md-6 text-md-right">

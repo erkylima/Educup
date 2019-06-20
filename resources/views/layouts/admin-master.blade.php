@@ -13,6 +13,58 @@
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+  <style>
+        * {margin: 0; padding: 0;}
+
+        div.lista {
+            margin: 0px auto;
+        }
+
+        ul.lista {
+            list-style-type: none;
+            width: 100%;
+        }
+
+        a{
+            text-decoration: none;
+        }
+
+        a h3.lista {
+            font: bold 16px/1.5 Helvetica, Verdana, sans-serif;
+        }
+
+        a li.lista img {
+            float: left;
+            margin: 0 15px 0 0;
+        }
+
+        a li.lista p {
+            font: 200 12px/1.5 Georgia, Times New Roman, serif;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            text-decoration: none;
+
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2; /* number of lines to show */
+            line-height: 1;        /* fallback */
+            max-height: 1;
+        }
+
+        a li.lista {
+            text-decoration: none;
+            padding: 10px;
+            overflow: auto;
+        }
+        a li.lista.active {
+            background: #eee;
+            cursor: pointer;
+        }
+        a li.lista:hover {
+            background: #eee;
+            cursor: pointer;
+        }
+    </style>
   <link rel="stylesheet" href="{{ asset('assets/css/components.css')}}">
 </head>
 

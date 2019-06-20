@@ -43,6 +43,8 @@
         <main role="main" class="inner cover m2">
             @yield('conteudo')
         </main>
+
+        
 <!-- General JS Scripts -->
 <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/modules/popper.js') }}"></script>

@@ -7,9 +7,11 @@ Route::get('home', function() {
 
 Route::name('admin.')->prefix('admin')->middleware('auth')->group(function() {
     Route::get('inicio', 'DashboardController')->name('inicio');
-    Route::get('cursos', 'DashboardController@cursos')->name('cursos');
+    Route::get('planos', 'DashboardController@planos')->name('planos');
     Route::get('fatura', 'DashboardController@fatura')->name('fatura');
     Route::get('meus-cursos', 'DashboardController@meus_cursos')->name('meus-cursos');
+    Route::get('curso', 'DashboardController@curso')->name('curso');
+    Route::get('aula', 'DashboardController@aula')->name('aula');
 
     Route::get('users/roles', 'UserController@roles')->name('users.roles');
     Route::resource('users', 'UserController', [

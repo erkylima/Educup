@@ -8,7 +8,7 @@
     <ul class="sidebar-menu">
         <li class="menu-header">Início</li>
         <li class="{{ Request::route()->getName() == 'admin.inicio' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.inicio') }}"><i class="fa fa-archive"></i> <span>Início</span></a></li>
-        <li class="{{ Request::route()->getName() == 'admin.cursos' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.cursos') }}"><i class="fa fa-columns"></i> <span>Cursos</span></a></li>
+        <li class="{{ Request::route()->getName() == 'admin.planos' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.planos') }}"><i class="fa fa-columns"></i> <span>Planos</span></a></li>
         <li class="{{ Request::route()->getName() == 'admin.fatura' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.fatura') }}"><i class="fa fa-credit-card"></i> <span>Faturas</span></a></li>
         <li class="{{ Request::route()->getName() == 'admin.meus-cursos' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.meus-cursos') }}"><i class="fa fa-video"></i> <span>Meus Cursos</span></a></li>
         @if(Auth::user()->can('manage-users'))
