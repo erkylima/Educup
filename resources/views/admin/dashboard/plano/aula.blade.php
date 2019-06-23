@@ -26,21 +26,21 @@ Aula
 
                                 @foreach ($aulas as $key=>$item)
                                     @if($item->numero_aula == $aula)
-                                    <div class="card-header">
-                                    <h4>{{ $item->titulo }}</h4>
-                                    @php
-                                        $descricao=$item->descricao;
-                                    @endphp
-                                    </div>
-                                    <div class="card-body">
-                                    <div class="chocolat-parent">
-                                        <a href="assets/img/example-image.jpg" class="chocolat-image" title="Just an example">
-                                        <div data-crop-image="400px" style="overflow: hidden; position: relative; height: 400px;">
-                                                <iframe width="100%" height="400px" src="https://www.youtube.com/embed/{{ $item->url_video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        <div class="card-header">
+                                            <h4>{{ $item->titulo }}</h4>
+                                            @php
+                                                $descricao=$item->descricao;
+                                            @endphp
                                         </div>
-                                        </a>
-                                    </div>
-                                    </div>
+                                        <div class="card-body">
+                                            <div class="chocolat-parent">
+                                                <a href="assets/img/example-image.jpg" class="chocolat-image" title="Just an example">
+                                                    <div data-crop-image="400px" style="overflow: hidden; position: relative; height: 400px;">
+                                                        <iframe width="100%" height="400px" src="https://www.youtube.com/embed/{{ $item->url_video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
                                     @endif
                                 @endforeach
                             </div>

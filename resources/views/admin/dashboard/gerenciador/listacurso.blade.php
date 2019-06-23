@@ -67,7 +67,7 @@
                                         <td>{{ $key+1 }}</td>
                                         <td>{{ $itemd->nome }}</td>
                                         <td>
-                                            <a href="#" class="btn btn-info">Editar</a>
+                                            <a href="{{ route('admin.editcurso',['id'=>$itemd->id]) }}" class="btn btn-info">Editar Curso</a>
                                             <a href="{{ route('admin.deletecurso',['id_curso'=>$itemd->id]) }}" class="btn btn-danger">Apagar</a>
                                         </td>
                                     </tr>

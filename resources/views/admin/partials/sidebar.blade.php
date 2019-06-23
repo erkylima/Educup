@@ -20,7 +20,6 @@
             <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>Cursos</span></a>
             <ul class="dropdown-menu">
                 <li class="{{ Request::route()->getName() == 'admin.addcurso' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.addcurso') }}">Adicionar</a></li>
-                <li class="{{ Request::route()->getName() == 'admin.editcurso' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.editcurso') }}">Editar</a></li>
                 <li class="{{ Request::route()->getName() == 'admin.listacurso' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.listacurso') }}">Lista</a></li>
 
             </ul>
@@ -31,19 +30,7 @@
             <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>Disciplinas</span></a>
             <ul class="dropdown-menu">
                 <li class="{{ Request::route()->getName() == 'admin.adddisciplina' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.adddisciplina') }}">Adicionar</a></li>
-                <li class="{{ Request::route()->getName() == 'admin.editdisciplina' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.editdisciplina') }}">Editar</a></li>
                 <li class="{{ Request::route()->getName() == 'admin.listadisciplina' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.listadisciplina') }}">Lista</a></li>
-
-            </ul>
-        </li>
-        <li class="dropdown {{ Request::route()->getName() == 'admin.addvideo' ? ' active' : '' }}
-                {{ Request::route()->getName() == 'admin.editvideo' ? ' active' : '' }}
-                {{ Request::route()->getName() == 'admin.listavideo' ? ' active' : '' }}">
-            <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>Videos</span></a>
-            <ul class="dropdown-menu">
-                <li class="{{ Request::route()->getName() == 'admin.addvideo' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.addvideo') }}">Adicionar</a></li>
-                <li class="{{ Request::route()->getName() == 'admin.editvideo' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.editvideo') }}">Editar</a></li>
-                <li class="{{ Request::route()->getName() == 'admin.listavideo' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin.listavideo') }}">Lista</a></li>
 
             </ul>
         </li>

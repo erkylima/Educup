@@ -79,10 +79,10 @@
                                 <div class="form-group row mb-4">
                                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Tags</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <input type="text" name="tags" id="tags" class="form-control inputtags">
+                                        <input type="text" name="tags" id="tags" value="" class="form-control inputtags">
                                     </div>
                                 </div>
-                                <img src="{{ asset('assets/img/mastercard.png') }}" style="display:none;" id="logo" srcset="">
+                                <img src="{{ asset('assets/img/loader.gif') }}" style="display:none;" id="logo" srcset="">
                                 <div class="form-group row mb-4">
                                     <div class="col-sm-12 col-md-7">
                                     <input type="submit" id="uploadSubmit" class="btn btn-primary" value="Publicar">

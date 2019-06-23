@@ -11,6 +11,40 @@
     </div>
     <div class="section-body">
         <div class="container">
+                @if ($message = Session::get('success'))
+
+                <div class="alert alert-success alert-block">
+
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+
+                        <strong>{{ $message }}</strong>
+
+                </div>
+                <!--img src="{{ asset('assets/img/educup') }}/{{ Session::get('image') }}"-->
+
+                @endif
+
+
+
+                @if (count($errors) > 0)
+
+                    <div class="alert alert-danger">
+
+                        <strong>Ops!</strong> Tivemos problemas ao enviar o formulário.
+
+                        <ul>
+
+                            @foreach ($errors->all() as $error)
+
+                                <li>{{ $error }}</li>
+
+                            @endforeach
+
+                        </ul>
+
+                    </div>
+
+                @endif
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -36,8 +70,10 @@
                                             @endif
                                         @endforeach
                                         <td>
+                                            <a href="{{ route('admin.editdisciplina',['id'=>$itemd->id]) }}" class="btn btn-info">Editar Disciplina</a>
+                                            <a href="{{ route('admin.deletedisciplina',['id_disciplina'=>$itemd->id]) }}" class="btn btn-secondary">Apagar Disciplina</a>
                                             <a href="{{ route('admin.addvideo',['id_disciplina'=>$itemd->id]) }}" class="btn btn-success">Add Video</a>
-                                            <a href="#" class="btn btn-secondary">Apagar</a>
+                                            <a href="{{ route('admin.listavideo',['id_disciplina'=>$itemd->id]) }}" class="btn btn-info">Lista Videos</a>
                                         </td>
                                     </tr>
                                 @endforeach

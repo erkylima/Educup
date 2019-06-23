@@ -85,6 +85,7 @@ class DashboardController extends Controller
         return view('admin.dashboard.gerenciador.addcurso');
     }
     public function editCurso(Request $request){
+        $curso = Cursos::find($request->id);
 
         if($request->ajax())
         {
@@ -96,7 +97,7 @@ class DashboardController extends Controller
             $users = $users->paginate(config('stisla.perpage'))->appends(['q' => $request->q]);
             return response()->json($users);
         }
-        return view('admin.dashboard.gerenciador.editcurso');
+        return view('admin.dashboard.gerenciador.editcurso')->with(['curso'=>$curso]);
     }
     public function listaCurso(Request $request){
         $cursos = Cursos::all();
@@ -106,11 +107,23 @@ class DashboardController extends Controller
             foreach ($disciplinas as $key => $item) {
                 $videos = Videos::all()->where('id_disciplina',$item->id);
                 foreach ($videos as $key => $video) {
-                    $video->delete();
+                    try {
+                        $video->delete();
+                    } catch (\Throwable $th) {
+                    }
                 }
-                $item->delete();
+                try {
+                    $item->delete();
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
             }
-            $curso->delete();
+            try {
+                $curso->delete();
+                return redirect()->route('admin.listacurso');
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
         if($request->ajax())
         {
@@ -140,7 +153,10 @@ class DashboardController extends Controller
         }
         return view('admin.dashboard.gerenciador.adddisciplina')->with(['cursos'=>$cursos]);
     }
+
     public function editDisciplina(Request $request){
+        $disciplina = Disciplinas::find($request->id);
+
         if($request->ajax())
         {
             $users = new User;
@@ -151,11 +167,29 @@ class DashboardController extends Controller
             $users = $users->paginate(config('stisla.perpage'))->appends(['q' => $request->q]);
             return response()->json($users);
         }
-        return view('admin.dashboard.gerenciador.editdisciplina');
+        return view('admin.dashboard.gerenciador.editdisciplina')->with(['disciplina'=>$disciplina]);
     }
+
     public function listaDisciplina(Request $request){
         $cursos = Cursos::all();
         $disciplinas = Disciplinas::all();
+        if(isset($request->id_disciplina)){
+            $disciplina = Disciplinas::find($request->id_disciplina);
+            $videos = Videos::all()->where('id_disciplina',$request->id_disciplina);
+            foreach ($videos as $key => $video) {
+                try {
+                    $video->delete();
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
+            }
+            try {
+                $disciplina->delete();
+                return redirect()->route('admin.listacurso');
+            } catch (\Throwable $th) {
+            }
+
+        }
         if($request->ajax())
         {
             $users = new User;
@@ -168,6 +202,7 @@ class DashboardController extends Controller
         }
         return view('admin.dashboard.gerenciador.listadisciplina')->with(['cursos'=>$cursos,'disciplinas'=>$disciplinas]);
     }
+
     public function addVideo(Request $request){
 
         $disciplinas = Disciplinas::all();
@@ -185,6 +220,8 @@ class DashboardController extends Controller
         return view('admin.dashboard.gerenciador.addvideo')->with(['disciplinas'=>$disciplinas,'request'=>$request]);
     }
     public function editVideo(Request $request){
+        $video = Videos::find($request->id);
+
         if($request->ajax())
         {
             $users = new User;
@@ -195,9 +232,22 @@ class DashboardController extends Controller
             $users = $users->paginate(config('stisla.perpage'))->appends(['q' => $request->q]);
             return response()->json($users);
         }
-        return view('admin.dashboard.gerenciador.editvideo');
+        return view('admin.dashboard.gerenciador.editvideo')->with(['video'=>$video,'request'=>$request]);
     }
     public function listaVideo(Request $request){
+        $disciplinas = Disciplinas::all();
+        $videos = Videos::all()->where('id_disciplina',$request->id_disciplina);
+
+        if(isset($request->id_video)){
+            $video = Videos::find($request->id_video);
+            try {
+                $video->delete();
+                return redirect()->route('admin.listavideo', ['id_disciplina'=>$request->id_disciplina]);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        }
+
         if($request->ajax())
         {
             $users = new User;
@@ -208,7 +258,7 @@ class DashboardController extends Controller
             $users = $users->paginate(config('stisla.perpage'))->appends(['q' => $request->q]);
             return response()->json($users);
         }
-        return view('admin.dashboard.gerenciador.listavideo');
+        return view('admin.dashboard.gerenciador.listavideo')->with(['request'=>$request,'disciplinas'=>$disciplinas,'videos'=>$videos]);
     }
     public function sendCurso(Request $request){
 
@@ -241,68 +291,177 @@ class DashboardController extends Controller
             ->with('success','Curso publicado com sucesso')
 
             ->with('image',$imageName);
+    }
+
+    public function editadoCurso(Request $request){
+
+
+
+        request()->validate([
+
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+        ]);
+
+
+
+        $imageName = time().'.'.request()->image->getClientOriginalExtension();
+
+
+
+        request()->image->move(public_path('assets/img/educup'), $imageName);
+
+
+        $nova = Cursos::find($request->id_curso);
+        $nova->nome = $request->nome_curso;
+        $nova->descricao = $request->descricao_curso;
+        $nova->img_url = 'assets/img/educup/'.$imageName;
+        $nova->save();
+
+        return back()
+
+            ->with('success','Editado com sucesso')
+
+            ->with('image',$imageName);
+    }
+
+    public function deleteCurso(Request $request){
+
+        $curso = Cursos::find($request->id_curso);
+
+        $curso->delete();
+
+        return back()->with('success','Curso deletado com sucesso');
+    }
+
+    public function sendDisciplina(Request $request){
+
+
+
+        request()->validate([
+
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+        ]);
+
+
+
+        $imageName = time().'.'.request()->image->getClientOriginalExtension();
+
+
+
+        request()->image->move(public_path('assets/img/educup'), $imageName);
+
+
+        $novad = new Disciplinas();
+        $novad->id_curso = $request->id_curso;
+        $novad->nome = $request->nome_disciplina;
+        $novad->descricao = $request->descricao_disciplina;
+        $novad->img_url = 'assets/img/educup/'.$imageName;
+        $novad->save();
+
+        return back()
+
+            ->with('success','Disciplina publicada com sucesso')
+
+            ->with('image',$imageName);
+    }
+
+    public function editadoDisciplina(Request $request){
+
+
+
+        request()->validate([
+
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+        ]);
+
+
+
+        $imageName = time().'.'.request()->image->getClientOriginalExtension();
+
+
+
+        request()->image->move(public_path('assets/img/educup'), $imageName);
+
+        // TODO Corrigir imagem não repetir caminho
+        $nova = Disciplinas::find($request->id_disciplina);
+        $nova->id_curso = $request->id_curso;
+        $nova->nome = $request->nome_curso;
+        $nova->descricao = $request->descricao_curso;
+        $nova->img_url = 'assets/img/educup/'.$imageName;
+        $nova->save();
+
+        return back()
+
+            ->with('success','Editado com sucesso')
+
+            ->with('image',$imageName);
+    }
+
+    public function deleteDisciplina(Request $request){
+
+        $disciplina = Disciplinas::find($request->id_disciplina);
+
+        $disciplina->delete();
+
+        return back()->with('success','Disciplina deletado com sucesso');
+    }
+
+    public function deleteVideo(Request $request){
+
+        $disciplina = Video::find($request->id_video);
+
+        $disciplina->delete();
+
+        return back()->with('success','Vídeo deletado com sucesso');
+    }
+
+    public function sendVideo(Request $request){
+        $ultimo = Videos::all()->where('id_disciplina',$request->id_disciplina)->last();
+
+        $novad = new Videos();
+        $novad->id_disciplina = $request->id_disciplina;
+        if($ultimo!=null){
+            $novad->numero_aula = ($ultimo->numero_aula)+1;
+        }else{
+            $novad->numero_aula = 1;
         }
-
-        public function deleteCurso(Request $request){
-            $curso = Cursos::find($request->id_curso);
-
-            $curso->delete();
-
-            return back()->with('success','Curso deletado com sucesso');
+        $novad->titulo = $request->nome_video;
+        $novad->url_video = $request->id_video;
+        $novad->descricao = $request->descricao_video;
+        if(isset($request->tags)){
+            $tags=$request->tags;
+        }else{
+            $tags="";
         }
+        $novad->tags = $tags;
+        $novad->save();
 
-        public function sendDisciplina(Request $request){
+        return back()
 
-
-
-            request()->validate([
-
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-
-            ]);
-
+            ->with('success','Vídeo publicado com sucesso')
+            ;
+    }
+    public function editadoVideo(Request $request){
 
 
-            $imageName = time().'.'.request()->image->getClientOriginalExtension();
-
-
-
-            request()->image->move(public_path('assets/img/educup'), $imageName);
-
-
-            $novad = new Disciplinas();
-            $novad->id_curso = $request->id_curso;
-            $novad->nome = $request->nome_disciplina;
-            $novad->descricao = $request->descricao_disciplina;
-            $novad->img_url = 'assets/img/educup/'.$imageName;
-            $novad->save();
-
-            return back()
-
-                ->with('success','Curso publicado com sucesso')
-
-                ->with('image',$imageName);
+        $nova = Videos::find($request->id_video);
+        $nova->id_disciplina = $request->id_disciplina;
+        $nova->titulo = $request->nome_video;
+        $nova->descricao = $request->descricao_video;
+        $nova->url_video = $request->url_video;
+        if(isset($request->tags)){
+            $tags=$request->tags;
+        }else{
+            $tags="";
         }
+        $nova->tags = $tags;
+        $nova->save();
 
-        public function sendVideo(Request $request){
-            $ultimo = Videos::all()->where('id_disciplina',$request->id_disciplina)->last();
+        return back()
 
-            $novad = new Videos();
-            $novad->id_disciplina = $request->id_disciplina;
-            if($ultimo!=null){
-                $novad->numero_aula = ($ultimo->numero_aula)+1;
-            }else{
-                $novad->numero_aula = 1;
-            }
-            $novad->titulo = $request->nome_video;
-            $novad->url_video = $request->id_video;
-            $novad->descricao = $request->descricao_video;
-            $novad->tags = $request->tags;
-            $novad->save();
-
-            return back()
-
-                ->with('success','Curso publicado com sucesso')
-                ;
-        }
+            ->with('success','Editado com sucesso');
+    }
 }
