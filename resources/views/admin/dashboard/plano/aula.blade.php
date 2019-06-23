@@ -7,32 +7,42 @@ Aula
 @section('content')
 <section class="section">
         <div class="section-header">
-        <h1>Aula</h1>
+        <h1>Aulas</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="#">Início</a></div>
-            <div class="breadcrumb-item">Aula</div>
+            <div class="breadcrumb-item">Aulas</div>
         </div>
         </div>
 
         <div class="section-body">
             <div class="container">
                 <div class="row">
-
-                    @if (count($aulas)>=$aula && $aula>0)
+                    @php
+                        $descricao="";
+                    @endphp
+                    @if (count($aulas)>=$aula && $aula>0 )
                         <div class="col-lg-8 col-sm-12">
                             <div class="card">
-                                <div class="card-header">
-                                <h4>{{ $aulas[$aula-1]->titulo }}</h4>
-                                </div>
-                                <div class="card-body">
-                                <div class="chocolat-parent">
-                                    <a href="assets/img/example-image.jpg" class="chocolat-image" title="Just an example">
-                                    <div data-crop-image="400px" style="overflow: hidden; position: relative; height: 400px;">
-                                            <iframe width="100%" height="400px" src="https://www.youtube.com/embed/{{ $aulas[$aula-1]->url_video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                                @foreach ($aulas as $key=>$item)
+                                    @if($item->numero_aula == $aula)
+                                    <div class="card-header">
+                                    <h4>{{ $item->titulo }}</h4>
+                                    @php
+                                        $descricao=$item->descricao;
+                                    @endphp
                                     </div>
-                                    </a>
-                                </div>
-                                </div>
+                                    <div class="card-body">
+                                    <div class="chocolat-parent">
+                                        <a href="assets/img/example-image.jpg" class="chocolat-image" title="Just an example">
+                                        <div data-crop-image="400px" style="overflow: hidden; position: relative; height: 400px;">
+                                                <iframe width="100%" height="400px" src="https://www.youtube.com/embed/{{ $item->url_video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        </div>
+                                        </a>
+                                    </div>
+                                    </div>
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
                         <script>
@@ -47,17 +57,33 @@ Aula
                                 </div>
                                 <div class="card-body">
                                     <div class="lista">
-                                        @foreach ($aulas as $key=>$item)
+                                        @php
+                                            $itensCount=1;
+                                        @endphp
+                                        @foreach ($aulas as $keylist=>$item)
                                             <div class="list-group" id="myList" role="tablist">
-                                                <a class="list-group-item list-group-item-action @if($item->id == $aula) active @endif" href="{{ route('admin.aula') }}?disciplina={{ $item->id_disciplina }}&aula={{ $item->id }}" role="tab">
-                                                    {{ $key+1 }}ª Aula - {{ $item->titulo }}
+                                                <a class="list-group-item list-group-item-action @if($itensCount == $aula) active @endif" href="{{ route('admin.aula') }}?disciplina={{ $item->id_disciplina }}&aula={{ $itensCount }}" role="tab">
+                                                    {{ $itensCount }}ª Aula - {{ $item->titulo }}
                                                 </a>
                                             </div>
+                                            @php
+                                                $itensCount++;
+                                            @endphp
                                         @endforeach
                                     </div>
                                 </div>
                             </div>
 
+                        </div>
+                        <div class="col-lg-12 col-sm-12 ">
+                            <div class="card card-primary">
+                                    <div class="card-header ui-sortable-handle">
+                                        <h4>Descrição</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        {{ $descricao }}
+                                    </div>
+                            </div>
                         </div>
                     @else
                         <div class="col-12 col-md-12 col-sm-12">

@@ -5,6 +5,7 @@ Meus Cursos
 @endsection
 
 @section('content')
+
 <section class="section">
         <div class="section-header">
         <h1>Meus Cursos</h1>
@@ -19,28 +20,48 @@ Meus Cursos
                 <div class="row">
 
                     @if (!$planos->isEmpty())
-                        @foreach ($cursos as $curso)
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-3">
-                                <article class="article">
-                                <div class="article-header">
-                                    <div class="article-image" data-background="{{ asset($curso->img_url) }}" style="background-image: url(&quot;assets/img/news/img08.jpg&quot;);">
+                        @if (!$cursos->isEmpty())
+                            @foreach ($cursos as $curso)
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                                    <article class="article">
+                                    <div class="article-header">
+                                        <div class="article-image" data-background="{{ asset($curso->img_url) }}" style="background-image: url(&quot;assets/img/news/img08.jpg&quot;);">
+                                        </div>
+                                        <div class="article-title">
+                                        <h2><a href="#">{{ $curso->nome }}</a></h2>
+                                        </div>
                                     </div>
-                                    <div class="article-title">
-                                    <h2><a href="#">{{ $curso->nome }}</a></h2>
+                                    <div class="article-details">
+                                        <p class="truncate">{{ $curso->descricao }} </p>
+                                        <div class="article-cta">
+                                        <form action="{{ route('admin.curso') }}" method="get">
+                                            <input type="hidden" name="id_curso" value="{{ $curso->id }}">
+                                            <button type="submit" class="btn btn-primary">Abrir Curso</button>
+                                        </form>
+                                        </div>
+                                    </div>
+                                    </article>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="col-12 col-md-12 col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                    <h4>Nenhum curso foi cadastrado</h4>
+                                    </div>
+                                    <div class="card-body">
+                                    <div class="empty-state" data-height="400" style="height: 400px;">
+                                        <div class="empty-state-icon bg-danger">
+                                        <i class="fas fa-times"></i>
+                                        </div>
+                                        <h2>Entre em contato com o administrador.</h2>
+
+                                    </div>
                                     </div>
                                 </div>
-                                <div class="article-details">
-                                    <p class="truncate">{{ $curso->descricao }} </p>
-                                    <div class="article-cta">
-                                    <form action="{{ route('admin.curso') }}" method="get">
-                                        <input type="hidden" name="id_curso" value="{{ $curso->id }}">
-                                        <button type="submit" class="btn btn-primary">Abrir Curso</button>
-                                    </form>
-                                    </div>
-                                </div>
-                                </article>
                             </div>
-                        @endforeach
+                        @endif
+
                     @else
                         <div class="col-12 col-md-12 col-sm-12">
                             <div class="card">

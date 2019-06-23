@@ -19,6 +19,20 @@ Route::name('admin.')->prefix('admin')->middleware('auth')->group(function() {
             'index' => 'users'
         ]
     ]);
+    Route::get('addcurso', 'DashboardController@addCurso')->name('addcurso');
+    Route::post('addcurso', 'DashboardController@sendCurso')->name('sendcurso');
+    Route::get('editcurso', 'DashboardController@editCurso')->name('editcurso');
+    Route::get('listacurso', 'DashboardController@listaCurso')->name('listacurso');
+    Route::post('listacurso', 'DashboardController@deleteCurso')->name('deletecurso');
+    Route::get('adddisciplina', 'DashboardController@addDisciplina')->name('adddisciplina');
+    Route::post('adddisciplina', 'DashboardController@sendDisciplina')->name('senddisciplina');
+    Route::get('editdisciplina', 'DashboardController@addCurso')->name('editdisciplina');
+    Route::get('listadisciplina', 'DashboardController@listaDisciplina')->name('listadisciplina');
+    Route::get('addvideo', 'DashboardController@addVideo')->name('addvideo');
+    Route::post('addvideo', 'DashboardController@sendVideo')->name('sendvideo');
+    Route::get('editvideo', 'DashboardController@editVideo')->name('editvideo');
+    Route::get('listavideo', 'DashboardController@listaVideo')->name('listavideo');
+
 });
 
 Route::middleware('auth')->get('logout', function() {
